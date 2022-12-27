@@ -52,8 +52,8 @@ class Breadth_First_Search(object):
             self.NCLO = self.NCLO + NCLO
 
             if self.NCLO % 1000 == 0 and self.print_debug is True:
-
-                print(f"NCLO: ({self.NCLO}), Node Number: ({current_node.node_id}) Current State: {current_node.current_state}, Size of Open List:{len(self.open_list)}, Size of Closed list = {len(self.closed_list)}")
+                print(
+                    f"NCLO: ({self.NCLO}), Node Number: ({current_node.node_id}) Current State: {current_node.current_state}, Size of Open List:{len(self.open_list)}, Size of Closed list = {len(self.closed_list)}")
 
             if arrived_at_goal is True:
 
@@ -72,7 +72,6 @@ class Breadth_First_Search(object):
                 self.expand(current_node=current_node)
 
             if len(self.open_list) == 0:
-
                 print("No Solutions Was Found")
 
     # ---------------------------------------------Algorithm Support Methods-----------------------------------------###
@@ -85,15 +84,16 @@ class Breadth_First_Search(object):
 
             closed_list_node_state = node.current_state
 
-            result, NCLO = self.problem.check_for_similar(current_state=node_to_check_state, state_for_check=closed_list_node_state)
+            result, NCLO = self.problem.check_for_similar(current_state=node_to_check_state,
+                                                          state_for_check=closed_list_node_state)
 
             self.NCLO = self.NCLO + NCLO
 
             if result is True:
 
                 if self.print_debug:
-
-                    print(f"NCLO: ({self.NCLO}), Node Number: ({node_for_check.node_id}) With current State {node_for_check.current_state} was allready checked.")
+                    print(
+                        f"NCLO: ({self.NCLO}), Node Number: ({node_for_check.node_id}) With current State {node_for_check.current_state} was allready checked.")
 
                 return True
 
@@ -107,15 +107,16 @@ class Breadth_First_Search(object):
 
             open_list_node_state = node.current_state
 
-            result, NCLO = self.problem.check_for_similar(current_state=node_to_check_state, state_for_check=open_list_node_state)
+            result, NCLO = self.problem.check_for_similar(current_state=node_to_check_state,
+                                                          state_for_check=open_list_node_state)
 
             self.NCLO = self.NCLO + NCLO
 
             if result is True:
 
                 if self.print_debug:
-
-                    print(f"NCLO: ({self.NCLO}), Node Number: ({node_for_check.node_id}) With current State {node_for_check.current_state} was allready checked.")
+                    print(
+                        f"NCLO: ({self.NCLO}), Node Number: ({node_for_check.node_id}) With current State {node_for_check.current_state} was allready checked.")
 
                 return True
 
@@ -132,13 +133,11 @@ class Breadth_First_Search(object):
             for node in self.closed_list:
 
                 if node.node_id == node_to_look:
-
                     path.update({node.node_id: node})
                     node_to_look = node.father_id
                     break
 
         for node_id in path:
-
             node = path.get(node_id)
             print(node.current_state)
 
@@ -150,7 +149,7 @@ class Breadth_First_Search(object):
 
         path = {}
 
-        path.update({j:current_node})
+        path.update({j: current_node})
 
         j = j + 1
 
@@ -163,7 +162,6 @@ class Breadth_First_Search(object):
                 for node in self.closed_list:
 
                     if node.node_id == node_id_to_look:
-
                         path.update({j: node})
 
                         j = j + 1
@@ -173,7 +171,6 @@ class Breadth_First_Search(object):
         path.update({j: self.closed_list[0]})
 
         for item in path:
-
             node = path.get(item)
             node_id = node.node_id
             node_state = node.current_state
@@ -212,24 +209,24 @@ class Breadth_First_Search(object):
                     last_opertor = "right"
 
                 operators = self.problem.update_node_operators(current_state=new_state)
-                new_node = Node(node_id=self.nodes_index, father_id=current_node.node_id, current_state=new_state,operators=operators)
+                new_node = Node(node_id=self.nodes_index, father_id=current_node.node_id, current_state=new_state,
+                                operators=operators)
                 new_node.last_operator = last_opertor
 
                 if self.check_if_in_closed_list(node_for_check=new_node) is False:
 
                     if self.check_if_in_open_list(node_for_check=new_node) is False:
-
                         self.nodes_index = self.nodes_index + 1
                         self.open_list.append(new_node)
 
         # self.closed_list.append(current_node)
         self.closed_list.insert(0, current_node)
 
+
 # ---------------------------------------------Statistical Methods---------------------------------------------------###
 
 
 def summarize_results(stat_dict):
-
     final_parameters = ["NCLO", "Number of Nodes", "Size of Closed List", "Size of Open List"]
 
     for i in range(0, len(final_parameters)):
@@ -245,11 +242,11 @@ def summarize_results(stat_dict):
 
         print(f"For {final_parameters[i]} the average is={avg}")
 
+
 # ---------------------------------------------Print Debug Methods---------------------------------------------------###
 
 
 def return_time():
-
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     return current_time
@@ -258,23 +255,21 @@ def return_time():
 # ---------------------------------------------Generate Problems Methods---------------------------------------------###
 
 def generate_test_problems():
-
     eight_tile_problems = {}
     dictionary_problems = {}
-    dictionary_problems.update({1: [[1,2,3],[4,5,6],[7,0,8]]})
-    dictionary_problems.update({2: [[1,2,3],[4,0,6],[7,5,8]]})
-    dictionary_problems.update({3: [[1,0,3],[4,2,6],[7,5,8]]})
-    dictionary_problems.update({4: [[0,1,3],[4,2,6],[7,5,8]]})
-    dictionary_problems.update({5: [[0,1,3],[7,2,4],[6,5,8]]})
-    dictionary_problems.update({6: [[3,1,2],[4,5,6],[7,8,0]]})
-    dictionary_problems.update({7: [[3,1,2],[4,5,0],[7,8,6]]})
+    dictionary_problems.update({1: [[1, 2, 3], [4, 5, 6], [7, 0, 8]]})
+    dictionary_problems.update({2: [[1, 2, 3], [4, 0, 6], [7, 5, 8]]})
+    dictionary_problems.update({3: [[1, 0, 3], [4, 2, 6], [7, 5, 8]]})
+    dictionary_problems.update({4: [[0, 1, 3], [4, 2, 6], [7, 5, 8]]})
+    dictionary_problems.update({5: [[0, 1, 3], [7, 2, 4], [6, 5, 8]]})
+    dictionary_problems.update({6: [[3, 1, 2], [4, 5, 6], [7, 8, 0]]})
+    dictionary_problems.update({7: [[3, 1, 2], [4, 5, 0], [7, 8, 6]]})
 
     for i in range(1, 8):
-
         name = "Eight_Tile_Puzzle"
         initial_state = dictionary_problems.get(i)
         problem = Eight_Tile_Puzzle(initial_state)
-        eight_tile_problems.update({i:problem})
+        eight_tile_problems.update({i: problem})
 
     return eight_tile_problems
 
@@ -289,28 +284,26 @@ print(f"Simulation start at time: {return_time()}")
 stat_dict = {}
 
 for i in range(1, 8):
+    # if i == 1:
 
-     # if i == 1:
+    print(f"Problem {i} is Initiated at time: {return_time()}")
 
-        print(f"Problem {i} is Initiated at time: {return_time()}")
+    eight_title_puzzle_problem = eight_tile_puzzle_problems.get(i)
 
-        eight_title_puzzle_problem = eight_tile_puzzle_problems.get(i)
+    problem_initial_state = eight_title_puzzle_problem.initial_state
 
-        problem_initial_state = eight_title_puzzle_problem.initial_state
+    print(f"Problem {i} initial state: {eight_title_puzzle_problem.initial_state}")
 
-        print(f"Problem {i} initial state: {eight_title_puzzle_problem.initial_state}")
+    algorithm = Breadth_First_Search(problem=eight_title_puzzle_problem)
 
-        algorithm = Breadth_First_Search(problem=eight_title_puzzle_problem)
+    final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len, path = algorithm.run_algorithm()
 
-        final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len, path = algorithm.run_algorithm()
+    data_list = [final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len]
 
-        data_list = [final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len]
+    stat_dict.update({i: data_list})
 
-        stat_dict.update({i: data_list})
-
-        print(f"Problem {i} was solved at time: {return_time()}")
+    print(f"Problem {i} was solved at time: {return_time()}")
 
 print(f"Simulation ended at time: {return_time()}")
 
 summarize_results(stat_dict=stat_dict)
-

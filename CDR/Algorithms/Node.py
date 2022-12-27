@@ -24,6 +24,3 @@ class A_star_node(Node):
         else:
 
             self.f_cost = None
-
-
-
