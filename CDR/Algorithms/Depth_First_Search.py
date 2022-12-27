@@ -1,6 +1,6 @@
 from Problem.EightTilePuzzle import Eight_Tile_Puzzle
 from datetime import datetime
-from Algorithms.Node import Node
+from Yuval.Node import Node
 
 
 class Depth_First_Search(object):

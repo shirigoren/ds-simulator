@@ -1,9 +1,9 @@
 from Problem.EightTilePuzzle import Eight_Tile_Puzzle
 from datetime import datetime
-from Algorithms.Node import Node
+from Yuval.Node import Node
 
 
-class Breadth_First_Search(object):
+class Depth_First_Search(object):
 
     # ---------------------------------------------Constructor and Init Methods--------------------------------------###
 
@@ -51,7 +51,7 @@ class Breadth_First_Search(object):
 
             self.NCLO = self.NCLO + NCLO
 
-            if self.NCLO % 1000 == 0 and self.print_debug is True:
+            if self.NCLO % 1000 == 0:
 
                 print(f"NCLO: ({self.NCLO}), Node Number: ({current_node.node_id}) Current State: {current_node.current_state}, Size of Open List:{len(self.open_list)}, Size of Closed list = {len(self.closed_list)}")
 
@@ -59,7 +59,7 @@ class Breadth_First_Search(object):
 
                 print("Arrived at goal")
 
-                path = self.find_the_path_new(current_node=current_node)
+                path = self.find_the_path(current_node=current_node)
 
                 self.closed_list_len = len(self.closed_list)
                 self.open_list_len = len(self.open_list)
@@ -121,7 +121,7 @@ class Breadth_First_Search(object):
 
         return False
 
-    def find_the_path_new(self, current_node):
+    def find_the_path(self, current_node):
 
         path = {}
         path.update({current_node.node_id: current_node})
@@ -141,43 +141,6 @@ class Breadth_First_Search(object):
 
             node = path.get(node_id)
             print(node.current_state)
-
-        return path
-
-    def find_the_path(self, current_node):
-
-        j = 1
-
-        path = {}
-
-        path.update({j:current_node})
-
-        j = j + 1
-
-        node_id_to_look = current_node.father_id
-
-        if len(self.closed_list) > 1:
-
-            while node_id_to_look != 0:
-
-                for node in self.closed_list:
-
-                    if node.node_id == node_id_to_look:
-
-                        path.update({j: node})
-
-                        j = j + 1
-
-                        node_id_to_look = node.father_id
-
-        path.update({j: self.closed_list[0]})
-
-        for item in path:
-
-            node = path.get(item)
-            node_id = node.node_id
-            node_state = node.current_state
-            print(f"Node:{node_id} - State {node_state}")
 
         return path
 
@@ -220,10 +183,10 @@ class Breadth_First_Search(object):
                     if self.check_if_in_open_list(node_for_check=new_node) is False:
 
                         self.nodes_index = self.nodes_index + 1
-                        self.open_list.append(new_node)
+                        self.open_list.insert(0, new_node)
 
-        # self.closed_list.append(current_node)
-        self.closed_list.insert(0, current_node)
+        self.closed_list.append(current_node)
+        # self.closed_list.insert(0, current_node)
 
 # ---------------------------------------------Statistical Methods---------------------------------------------------###
 
@@ -290,25 +253,25 @@ stat_dict = {}
 
 for i in range(1, 8):
 
-     # if i == 1:
+        # if i == 1:
 
-        print(f"Problem {i} is Initiated at time: {return_time()}")
+            print(f"Problem {i} is Initiated at time: {return_time()}")
 
-        eight_title_puzzle_problem = eight_tile_puzzle_problems.get(i)
+            eight_title_puzzle_problem = eight_tile_puzzle_problems.get(i)
 
-        problem_initial_state = eight_title_puzzle_problem.initial_state
+            problem_initial_state = eight_title_puzzle_problem.initial_state
 
-        print(f"Problem {i} initial state: {eight_title_puzzle_problem.initial_state}")
+            print(f"Problem {i} initial state: {eight_title_puzzle_problem.initial_state}")
 
-        algorithm = Breadth_First_Search(problem=eight_title_puzzle_problem)
+            algorithm = Depth_First_Search(problem=eight_title_puzzle_problem)
 
-        final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len, path = algorithm.run_algorithm()
+            final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len, path = algorithm.run_algorithm()
 
-        data_list = [final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len]
+            data_list = [final_NCLO, number_of_nodes_opened, closed_list_len, open_list_len]
 
-        stat_dict.update({i: data_list})
+            stat_dict.update({i: data_list})
 
-        print(f"Problem {i} was solved at time: {return_time()}")
+            print(f"Problem {i} was solved at time: {return_time()}")
 
 print(f"Simulation ended at time: {return_time()}")
 
