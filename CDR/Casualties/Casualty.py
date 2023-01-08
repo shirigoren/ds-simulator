@@ -18,6 +18,10 @@ class CasualtyType(Enum):
     URGENT = 3
 
 
+def in_treatment_area():
+    return random.choice([False, True])
+
+
 class Casualty(object):
 
     def __init__(self, disaster_site_id, casualty_id, casualty_RPM):
@@ -39,7 +43,7 @@ class Casualty(object):
         self.__departure_time = None
         self.__arrived_to_hospital_time = None
 
-    # ---------------------------------------------Casualty Med Condition-------------------------------------------------###
+    # ---------------------------------------------Casualty Med Condition--------------------------------------------###
 
     def create_casualty_data(self):
         initial_RPM = random.randint(0, 12)
@@ -51,7 +55,7 @@ class Casualty(object):
         self.__current_RPM, self.__survival_prob, self.__care_time = CasualtyData().update_RPM_survival_care_time(
             initial_RPM=self.__initial_RPM, time_passed=time_now)
 
-    # ---------------------------------------------Change Status Methods-------------------------------------------------###
+    # ---------------------------------------------Change Status Methods---------------------------------------------###
 
     def change_to_triage(self):
         self.__status = CasualtyStatus.TRIAGE
@@ -69,7 +73,7 @@ class Casualty(object):
 
         return self.__casualty_type
 
-    # ---------------------------------------------Stats Methods---------------------------------------------------------###
+    # ---------------------------------------------Stats Methods-----------------------------------------------------###
 
     def save_evacuation_time(self, time_now):
         self.__departure_time = time_now
@@ -107,18 +111,15 @@ class Casualty(object):
 
             raise Exception(f"Casualty RPM {casualty_RPM} that was entered is out of range of 0-12.")
 
-    # ---------------------------------------------Previous Methods------------------------------------------------------###
+    # ---------------------------------------------Previous Methods--------------------------------------------------###
 
     def set_first_triage(self):
         triage_type = ['u', 'm', 'nu']
         casualty_triage_type = triage_type[random.randint(0, 2)]
         return casualty_triage_type
 
-    def in_treatment_area(self):
-        return random.choice([False, True])
-
     def in_evacuation_area(self):
-        if self.in_treatment == False:
+        if self.__status == 3:
             return False
         return random.choice([False, True])
 
