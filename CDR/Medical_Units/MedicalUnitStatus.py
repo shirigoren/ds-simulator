@@ -1,7 +1,7 @@
 import enum
 
 
-class Status(enum.Enum):
+class MedicalUnitStatus(enum.Enum):
     IDLE = 1
     ON_THE_WAY_TO_A_SITE_LOCATION = 2
     TREATING_A_CASUALTY = 3

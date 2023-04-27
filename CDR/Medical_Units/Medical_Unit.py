@@ -2,7 +2,7 @@ import math
 import enum
 
 from CDR.Base_Classses.PointLocation import PointLocation
-from CDR.Medical_Units.Status import Status
+from CDR.Medical_Units.MedicalUnitStatus import MedicalUnitStatus
 
 """Developed by Raanan_Y - 13112022"""
 
@@ -33,7 +33,7 @@ class MedicalUnit(object):
 
         # ##-----------------------------Parameters that updates during simulation-----------------------------##
 
-        self.status = Status.IDLE
+        self.status = MedicalUnitStatus.IDLE
         self.schedule = []
         #  The algorithm returns a list of lists: list of schedules and list of treatments
         self.future_arrival_time = None
@@ -59,7 +59,7 @@ class MedicalUnit(object):
 
     def medical_unit_change_status_to_idle(self):
 
-        self.status = Status.IDLE
+        self.status = MedicalUnitStatus.IDLE
         if self.print_debug:
             print(f"{time_now}: Medical Unit {self.medical_unit_id} is idle.")  # fix this function
 
@@ -75,32 +75,32 @@ class MedicalUnit(object):
 
     def medical_unit_is_on_the_way_to_disaster_site(self, disaster_site, time_now):
 
-        self.status = Status.ON_THE_WAY_TO_A_SITE_LOCATION
+        self.status = MedicalUnitStatus.ON_THE_WAY_TO_A_SITE_LOCATION
         if self.print_debug:
             print(
                 f"{time_now}: Medical Unit {self.medical_unit_id} is on the way to disaster site {disaster_site.disaster_site_id}.")
 
     def medical_unit_on_the_way_to_hospital(self, hospital, time_now):
 
-        self.status = Status.EVACUATING_A_CASUALTY_TO_HOSPITAL
+        self.status = MedicalUnitStatus.EVACUATING_A_CASUALTY_TO_HOSPITAL
         if self.print_debug:
             print(f"{time_now}: Medical Unit {self.medical_unit_id} is on the way to hospital {hospital.hospital_id}.")
 
     def medical_unit_handling_a_casualty(self, casualty, time_now):
 
-        self.status = Status.TREATING_A_CASUALTY
+        self.status = MedicalUnitStatus.TREATING_A_CASUALTY
         if self.print_debug:
             print(f"{time_now}: Medical Unit {self.medical_unit_id} is treating casualty {casualty.casualty_id}.")
 
     def medical_unit_uploading_a_casualty(self, casualty, time_now):
 
-        self.status = Status.UPLOADING_A_CASUALTY
+        self.status = MedicalUnitStatus.UPLOADING_A_CASUALTY
         if self.print_debug:
             print(f"{time_now}: Medical Unit {self.medical_unit_id} is uploading casualty {casualty.casualty_id}.")
 
     def medical_unit_at_a_hospital(self, hospital, time_now):
 
-        self.status = Status.HOSPITALIZATION_OF_PATIENTS
+        self.status = MedicalUnitStatus.HOSPITALIZATION_OF_PATIENTS
         if self.print_debug:
             print(f"{time_now}: Medical Unit {self.medical_unit_id} arrived at hospital {hospital.hospital_id}.")
 
