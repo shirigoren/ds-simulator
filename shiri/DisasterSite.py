@@ -1,4 +1,4 @@
-#todo: from Medical_Units import MedicalUnits
+from Medical_Unit import MedicalUnit
 from Casualty import Casualty
 from PointLocation import PointLocation
 
