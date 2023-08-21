@@ -11,6 +11,11 @@ class DiaryEventType(enum.Enum):
     FINISH_WORK_AT_HOSPITAL = 7
     SIMULATION_END = 8
 
+    #todo: 1. Does DRIVING_TO means the process of driving or arriving to the destination?
+    # 2. Does FINISH_WORK_AT_HOSPITAL means the arrival of the medical unit to the hospital
+    # or the end of the treatment of the casualties at the hospital (which, as far as I know,
+    # we are not interested in)?
+
 
 ######################################################################################
 
@@ -18,7 +23,7 @@ class DiaryEvent(object):
 
     def __init__(self, time_now, event_type):
         self.time_now = time_now
-        self.type = event_type
+        self.event_type = event_type
 
 
 #######################################################################################
