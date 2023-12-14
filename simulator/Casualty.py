@@ -1,12 +1,11 @@
 import random
 from enum import Enum
-from CasualtyData import *
+from simulator.CasualtyData import *
 
 """Developed by Shiri_G - 20102022"""
 
 
 class CasualtyStatus(Enum):
-
     UNTREATED = 1
     TRIAGE = 2
     TREATMENT = 3

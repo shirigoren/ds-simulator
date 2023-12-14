@@ -4,18 +4,13 @@ import enum
 class DiaryEventType(enum.Enum):
     NEW_DISASTER_SITE = 1
     ARRIVAL_TO_DISASTER_SITE = 2
-    WORK_COMPLETED_AT_DISASTER_SITE = 3
-    DRIVING_TO_NEW_DISASTER_SITE = 4  # ambulance capacity is not full
-    DRIVING_TO_THE_MEDICAL_CENTER = 5  # there are no casualties in the car
-    DRIVING_TO_HOSPITAL_WITH_CASUALTIES = 6  # there are casualties in the ambulance
-    FINISH_WORK_AT_HOSPITAL = 7
-    SIMULATION_END = 8
-
-    #todo: 1. Does DRIVING_TO means the process of driving or arriving to the destination?
-    # 2. Does FINISH_WORK_AT_HOSPITAL means the arrival of the medical unit to the hospital
-    # or the end of the treatment of the casualties at the hospital (which, as far as I know,
-    # we are not interested in)?
-
+    FINISH_AT_DS_DRIVING_TO_HOSPITAL = 3  # ambulance is full
+    FINISH_AT_DS_DRIVING_TO_ANOTHER_DS = 4 #ambulace not full
+    FINISH_AT_DS_DRIVING_TO_DISPATCH = 5 # ambulace is empty
+    ARRIVAL_TO_DISPATCH = 6
+    ARRIVAL_TO_HOSPITAL = 7
+    FINISH_AT_HOSPITAL = 8
+    SIMULATION_END = 9
 
 ######################################################################################
 
@@ -47,10 +42,11 @@ class ArrivalToDisasterSite(DiaryEvent):  # type 2
 
 ########################################################################################
 
-class WorkCompletedAtDisasterSite(DiaryEvent):  # type 3
+class FinishWorkDisasterSite(DiaryEvent):  # type 3
 
     def __init__(self, time_now, medical_unit, disaster_site):
         self.medical_unit = medical_unit
+        self.disaster_site = disaster_site
         self.time_now = time_now
         DiaryEvent.__init__(self, time_now=time_now, event_type=DiaryEventType.WORK_COMPLETED_AT_DISASTER_SITE)
 
@@ -76,7 +72,7 @@ class DrivingToTheMedicalCenter(DiaryEvent):  # type 5
 
 ########################################################################################
 
-class DRIVING_TO_HOSPITAL_WITH_CASUALTIES(DiaryEvent):  # type 6
+class DRIVING_TO_HOSPITAL(DiaryEvent):  # type 6
 
     def __init__(self, time_now, medical_unit, hospital, casualties):
         self.medical_unit = medical_unit

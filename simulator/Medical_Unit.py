@@ -1,12 +1,8 @@
 import math
 import enum
 
-# from Departments.Casualty import #
-from Raanan.PointLocation import PointLocation
-from Raanan.Status import Status
-
-
-# Raanan.y 13/11
+from simulator.PointLocation import PointLocation
+from simulator.Status import Status
 
 
 class Tasks(enum.Enum):  # let crate an enum of abilities
@@ -47,12 +43,53 @@ class MedicalUnit(object):
     # ##------------------------------Methods for change of status---------------------------------##
     # Produce a method that initializes the capabilities according to the tasks with the type of patient
 
-    def medical_unit_change_status_to_idle(self):
+    def change_status_to_idle(self):
         self.status = Status.IDLE
 
-    def medical_unit_arrived_to_disaster_site(self, disaster_site, time_now):
+    def arrived_to_disaster_site(self, disaster_site, time_now):
         self.current_location = disaster_site.location_point
+        self.status = Status.WORKING_IN_SITE
         self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to disaster site " + str(disaster_site.ds_id))
+
+    ### shiri 4.9.2023:
+    def finished_at_ds_driving_to_hospital(self,hospital,time_now):
+        self.current_location = None
+        self.status = Status.ON_THE_WAY_TO_HOSPITAL
+        self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " on the way to hospital " + str(hospital.hospital_id))
+
+    def finished_at_ds_driving_to_another_ds(self,new_disaster_site,time_now):
+        self.current_location = None
+        self.status = Status.ON_THE_WAY_TO_A_SITE_LOCATION
+        self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " on the way to disaster site " + str(new_disaster_site.ds_id))
+
+    def finished_at_ds_driving_to_dispatch(self,time_now):
+        self.current_location = None
+        self.status = Status.RETURN_TO_DISPATCH
+        self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + "on the way to dispatch")
+
+    def arrived_to_dispatch(self,time_now):
+        self.current_location = (0,0)
+        #todo: What is the location of the dispatch? can it be (0,0)?
+        self.status = Status.IN_DISPATCH
+        self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + "arrived to dispatch")
+
+    def arrived_to_hospital(self,hospital, time_now):
+        self.current_location = hospital.location_point
+        self.status = Status.AT_HOSPITAL
+        self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to hospital " + str(hospital.hospital_id))
+
+    def finished_at_hospital(self,hospital,time_now):
+        self.current_location = None
+        self.status = Status.IDLE #todo 6.9.23 - is that OK?
+        self.update_my_schedule()
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " finished at hospital " + str(hospital.hospital_id))
+    #
 
     def medical_unit_at_waiting_location(self, time_now):
         raise NotImplementedError("Please Implement this method")
@@ -94,14 +131,10 @@ class MedicalUnit(object):
             print(f'Agent ({self.medical_unit_id} uploaded patient ({patient.patient_id}).\n')
 
     def remove_patient_from_medical_unit(self, patient):
-
         for passenger in self.casualty_passengers:
-
             if passenger.patient_id == patient.patient_id:
-
                 self.casualty_passengers.remove(patient)
                 self.passenger_capacity = self.passenger_capacity + 1
-
                 if self.medical_unit_debug is True:
                     print(f'Agent ({self.medical_unit_id}) dropped patient ({patient.patient_id}) at the hospital.\n')
 
@@ -130,7 +163,6 @@ class MedicalUnit(object):
         return km
 
     def update_medical_unit_location(self, time_now):
-
         going_right = False
         going_down = False
 
@@ -145,39 +177,30 @@ class MedicalUnit(object):
         time_passed = (time_now - self.future_arrival_time) / time_now
 
         if going_right is True:
-
             lat_location = self.current_location.lat
             lat_location = lat_location - lat_delta * time_passed
 
         else:
-
             lat_location = self.current_location.lat
             lat_location = lat_location + lat_delta * time_passed
 
         if going_down is True:
-
             long_location = self.current_location.long
             long_location = long_location - long_delta * time_passed
 
         else:
-
             long_location = self.current_location.long
             long_location = long_location + long_delta * time_passed
 
         self.current_location = PointLocation(lat_location, long_location)
-
         self.future_arrival_time = self.travel_time(self.current_location, self.schedule[0])
 
     # ##------------------------------Check Methods ------------------------------------------------##
 
     def does_medical_unit_has_allocations(self):
-
         if len(self.schedule) > 0:
-
             return True
-
         else:
-
             return False
 
     # ##------------------------------Equality and str methods -------------------------------------##
@@ -193,7 +216,6 @@ class MedicalUnit(object):
 
 
     def medical_unit_arrived_to_site(self, time, current_location):
-
         self.current_location = current_location
         self.status = Status.WORKING_IN_SITE
 

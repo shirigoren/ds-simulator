@@ -1,6 +1,6 @@
-from Raanan.Medical_Unit import MedicalUnit
-from Casualty import Casualty
-from Raanan.PointLocation import PointLocation
+from simulator.Medical_Unit import MedicalUnit
+from simulator.Casualty import Casualty
+from simulator.PointLocation import PointLocation
 """Developed by Shiri_G - 31102022"""
 
 class DisasterSite:
@@ -9,8 +9,8 @@ class DisasterSite:
         self.ds_id = disaster_site_id
         self.number_of_casualties = number_of_casualties
         self.coordinate = PointLocation(location_lat,location_long)
-        self.casualties = set()
-        self.units_on_site = set()
+        self.casualties = []
+        self.units_on_site = []
         self.print_debug = True
         self.create_casualties(number_of_casualties)
 
@@ -26,10 +26,21 @@ class DisasterSite:
 # ---------------------------------------------medical unit----------------------------------------------#
 
     def medical_unit_arrived(self, medical_unit, time_now):
-        self.units_on_site.add(medical_unit)
+        self.units_on_site.append(medical_unit)
         if self.print_debug:
             print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
-                  f" medical team {medical_unit.id} was arrived.")
+                  f" medical team {medical_unit.id} has arrived.")
+
+    #shiri 29.8
+    def medical_unit_finished(self, medical_unit, time_now):
+        self.units_on_site.remove(medical_unit)
+        if self.print_debug:
+            print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
+                  f" medical team {medical_unit.id} finished work.")
+
+    def add_casualty(self, casualty):
+        self.casualties.append(casualty)
+    #
 
     def attach_casualty_to_medical_unit(self, casualtyInTreatment, medical_unit):
         medical_unit.attach_casualty(casualtyInTreatment)

@@ -1,12 +1,12 @@
-from PointLocation import PointLocation
-from Medical_Unit import MedicalUnit
+from simulator.PointLocation import PointLocation
+from simulator.Medical_Unit import MedicalUnit
 
 class Hospital:
 
     def __init__(self, hospital_id, location_lat, location_long):
         self.hospital_id = hospital_id
         self.coordinate = PointLocation(location_lat,location_long)
-        self.casualties = set()
+        self.casualties = []
         self.capacity = None
         self.print_debug = True
 
@@ -15,7 +15,7 @@ class Hospital:
             if self.capacity == 0:
                 print("There is no room for more casualties the hospital")
                 break
-            self.casualties.add(casualty)
+            self.casualties.append(casualty)
             self.capacity -= 1
             medicalUnit.remove_patient_from_agent(casualty)
             if self.print_debug:
