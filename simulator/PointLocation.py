@@ -3,7 +3,7 @@ class PointLocation(object):
         self.lat = lat
         self.long = long
         self.geo_coordinate = (self.lat, self.long)
-        self.print_debug = False
+        self.print_debug = True
 
     # ##------------------------------Equality and str methods -------------------------------------##
 

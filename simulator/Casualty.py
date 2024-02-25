@@ -26,6 +26,8 @@ class Casualty(object):
         self.__care_time = None
         self.__initial_RPM = self.create_casualty_data()
         self.__current_RPM = self.__initial_RPM
+        self.__first_triage = self.set_first_triage()
+        self.__current_triage = self.update_current_triage()
 
         # ----States Variables---- #
 
@@ -43,6 +45,24 @@ class Casualty(object):
 
     def update_casualty_med_condition(self, time_now):
         self.__current_RPM, self.__survival_prob, self.__care_time = CasualtyData().update_RPM_survival_care_time(initial_RPM=self.__initial_RPM, time_passed=time_now)
+
+    def set_first_triage(self):
+        if self.__initial_RPM >= 8:
+            casualty_triage_type = "nu" # non urgent
+        elif self.__initial_RPM <= 4:
+            casualty_triage_type = "u" # urgent
+        else:
+            casualty_triage_type = "m" # medium
+        return casualty_triage_type
+
+    def update_current_triage(self):
+        if self.__current_RPM >= 8:
+            casualty_triage_type = "nu" # non urgent
+        elif self.__current_RPM <= 4:
+            casualty_triage_type = "u" # urgent
+        else:
+            casualty_triage_type = "m" # medium
+        return casualty_triage_type
 
 # ---------------------------------------------Change Status Methods-------------------------------------------------###
 
@@ -79,10 +99,6 @@ class Casualty(object):
 
 # ---------------------------------------------Previous Methods------------------------------------------------------###
 
-    def set_first_triage(self):
-        triage_type = ['u', 'm', 'nu']
-        casualty_triage_type = triage_type[random.randint(0,2)]
-        return casualty_triage_type
 
     def in_treatment_area(self):
         return random.choice([False, True])

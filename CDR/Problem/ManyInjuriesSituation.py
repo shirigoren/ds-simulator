@@ -173,7 +173,7 @@ class ARAN(object):
                     if med_unit.capacity_urgent > 0:
 
                         if urgent_casualties > 0:
-                            med_unit.add_patient_to_medical_unit(list_of_casualties[0])
+                            med_unit.add_casualty_to_medical_unit(list_of_casualties[0])
 
                             del list_of_casualties[0]
 
@@ -184,7 +184,7 @@ class ARAN(object):
                     if med_unit.capacity_medium > 0:
 
                         if medium_casualties > 0:
-                            med_unit.add_patient_to_medical_unit(list_of_casualties[0])
+                            med_unit.add_casualty_to_medical_unit(list_of_casualties[0])
 
                             del list_of_casualties[0]
 
@@ -195,7 +195,7 @@ class ARAN(object):
                     if med_unit.capacity_non_urgent > 0:
 
                         if non_urgent_casualties > 0:
-                            med_unit.add_patient_to_medical_unit(list_of_casualties[0])
+                            med_unit.add_casualty_to_medical_unit(list_of_casualties[0])
 
                             del list_of_casualties[0]
 

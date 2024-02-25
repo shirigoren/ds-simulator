@@ -17,7 +17,7 @@ class Hospital:
                 break
             self.casualties.append(casualty)
             self.capacity -= 1
-            medicalUnit.remove_patient_from_agent(casualty)
+            medicalUnit.remove_patient_from_medical_unit(casualty)
             if self.print_debug:
                 print(f"{time_now}:  medical unit {medicalUnit} "
                       f"arrived to hospital {self.hospital_id}")

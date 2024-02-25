@@ -24,9 +24,9 @@ def generate_casualties(number_of_casualties):
     return casualties
 
 def create_small_problem():
-    medical_units = generate_medical_units(number_of_medical_units=1)
+    medical_units = generate_medical_units(number_of_medical_units=3)
     disaster_sites = generate_disaster_site(number_of_disaster_sites=1)
-    casualties = generate_casualties(number_of_casualties=4)
+    casualties = generate_casualties(number_of_casualties=8)
 
     for casualty in casualties:
         disaster_sites[0].add_casualty(casualty)

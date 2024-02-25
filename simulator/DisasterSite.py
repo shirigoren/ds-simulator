@@ -50,11 +50,6 @@ class DisasterSite:
                 self.casualties.remove(casualtyInTreatment)
                 break
 
-    def medical_unit_left(self, medical_unit, time_now):
-        self.units_on_site.remove(medical_unit)
-        if self.print_debug:
-            print(f"{time_now}: Disaster site {self.ds_id} - medical team {medical_unit.id} left.")
-
 
 # ---------------------------------------------Eq and Str----------------------------------------------#
 
