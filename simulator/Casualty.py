@@ -1,4 +1,5 @@
-import random
+from random import *
+from random import seed
 from enum import Enum
 from simulator.CasualtyData import *
 
@@ -22,10 +23,10 @@ class Casualty(object):
         # ----Medical Variables---- #
 
         self.__status = CasualtyStatus.UNTREATED
-        self.__survival_prob = None
-        self.__care_time = None
-        self.__initial_RPM = self.create_casualty_data()
+        self.__initial_RPM = randint(0,12)
         self.__current_RPM = self.__initial_RPM
+        self.__survival_prob = round(CasualtyData().survival_table.get(self.__initial_RPM),2)
+        self.__care_time = CasualtyData().care_time_table.get(self.__initial_RPM)
         self.__first_triage = self.set_first_triage()
         self.__current_triage = self.update_current_triage()
 
@@ -37,14 +38,8 @@ class Casualty(object):
 
 # ---------------------------------------------Casualty Med Condition-------------------------------------------------###
 
-    def create_casualty_data(self):
-        initial_RPM = random.randint(0,12)
-        self.__care_time = CasualtyData().care_time_table.get(initial_RPM)
-        self.__survival_prob = round(CasualtyData().survival_table.get(initial_RPM),2)
-        return initial_RPM
-
     def update_casualty_med_condition(self, time_now):
-        self.__current_RPM, self.__survival_prob, self.__care_time = CasualtyData().update_RPM_survival_care_time(initial_RPM=self.__initial_RPM, time_passed=time_now)
+        self.__current_RPM, self.__survival_prob, self.__care_time = CasualtyData().get_RPM_survival_care_time(initial_RPM=self.__initial_RPM, time_passed=time_now)
 
     def set_first_triage(self):
         if self.__initial_RPM >= 8:
@@ -98,7 +93,6 @@ class Casualty(object):
 
 
 # ---------------------------------------------Previous Methods------------------------------------------------------###
-
 
     def in_treatment_area(self):
         return random.choice([False, True])

@@ -62,7 +62,7 @@ class CasualtyData(object):
         #print(f"\nMETHOD get_updated_care_time \ninitial RPM: {initial_RPM} \nupdated RPM: {updated_RPM}")
         return updated_care_time
 
-    def update_RPM_survival_care_time(self, initial_RPM, time_passed):
+    def get_RPM_survival_care_time(self, initial_RPM, time_passed):
         time_interval = self.calculate_how_many_time_intervals_in_hours(time=time_passed)
         current_RPM = self.get_updated_rpm(initial_RPM=initial_RPM, time_interval=time_interval)
         current_survival_probability = self.get_updated_survival_probability(updated_RPM=current_RPM)

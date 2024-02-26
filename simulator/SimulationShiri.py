@@ -1,13 +1,16 @@
 from simulator.DiaryEvent import *
 from simulator.DisasterSite import *
 from Problem.SmallProblem import *
-from simulator.allocation import Allocation
+from simulator.Allocation_ds import *
 from simulator.Status import Status
+from Algoritms import *
+from random import *
 
+seed(1)
 
 class simulation(object):
 
-    def __init__(self, simulation_number, time_now, time_end, medical_units, disaster_sites, casualties):
+    def __init__(self, simulation_number, time_now, time_end, medical_units, disaster_sites,hospitals, casualties):
 
         self.simulation_number = simulation_number
         self.time_now = time_now #8
@@ -15,6 +18,7 @@ class simulation(object):
         self.simulation_events = []
         self.disaster_sites = disaster_sites
         self.medical_units = medical_units
+        self.hospitals = hospitals
         self.casualties = casualties
         self.print_debug = True
         self.current_event = None
@@ -39,7 +43,7 @@ class simulation(object):
                 self.medical_unit_arrived_to_ds()
                 print(f"Time {self.time_now}. function that was handeled is: medical_unit_arrived_to_ds()")
 
-            elif self.current_event.event_type == DiaryEventType.FINISH_AT_DS_DRIVING_TO_HOSPITAL:
+            elif self.current_event.event_type == DiaryEventType.FINISH_AT_DS:
                 self.medical_unit_finished_ds_driving_to_hospital()
                 print(f"Time {self.time_now}. function that was handeled is: medical_unit_finished_ds_driving_to_hospital()")
 
@@ -85,7 +89,7 @@ class simulation(object):
     def new_ds(self):
         self.time_now = self.current_event.time_now
         self.disaster_sites.append(self.current_event.disaster_site)
-        allocations = self.allocation_solver_ds()
+        allocations = allocation_solver_ds(self)
         for allocation in allocations:
             unit_id = allocation.medical_unit_id
             disaster_site_id = allocation.disaster_site_id
@@ -106,11 +110,11 @@ class simulation(object):
     def medical_unit_finished_ds_driving_to_hospital(self):
         medical_unit = self.current_event.medical_unit
         disaster_site = self.current_event.disaster_site
-        allocation = self.allocation_solver_hospital()
-        medical_unit.finished_at_ds_driving_to_hospital(allocation.hospital, self.current_event.time_now)
+        allocation = allocation_solver_hospital(self,medical_unit,self.hospitals)
+        medical_unit.finished_at_ds_driving_to_hospital(allocation.hospital.hospital_id, self.current_event.time_now)
         disaster_site.medical_unit_finished(medical_unit, self.current_event.time_now)
         travel_time = medical_unit.travel_time(disaster_site.coordinate, allocation.hospital.coordinate)
-        arrival_to_hospital = ArrivalToHospital(self.time_now+travel_time, medical_unit, allocation.hospital,allocation.casualties)
+        arrival_to_hospital = ArrivalToHospital(self.time_now+travel_time, medical_unit, allocation.hospital)
         self.simulation_events.append(arrival_to_hospital)
 
     # def medical_unit_finished_ds_driving_to_another_ds(self):
@@ -132,15 +136,7 @@ class simulation(object):
     #     self.current_event.medical_unit.finished_at_hospital(self.current_event.hospital, self.current_event.time_now)
 
 
-    def allocation_solver_ds(self):
-        allocations_list =[]
 
-        new_allocation = Allocation(medical_unit_id=1, disaster_site_id=1, working_start_time=9, working_end_time=12)
-        allocations_list.append(new_allocation)
-        return allocations_list
-
-    def allocation_solver_hospital(self):
-        pass
 
     def create_disaster_sites_event(self):
         for disaster_site in self.disaster_sites:
@@ -148,6 +144,6 @@ class simulation(object):
             self.simulation_events.append(new_disaster_site_event)
 
 
-medical_units, disaster_sites, casualties = create_small_problem()
-new_simulation = simulation(simulation_number=1, time_start=8, time_end=24, medical_units=medical_units, disaster_sites=disaster_sites, casualties=casualties)
+medical_units, disaster_sites, hospitals, casualties = create_small_problem()
+new_simulation = simulation(simulation_number=1, time_now=8, time_end=24, medical_units=medical_units, disaster_sites=disaster_sites, hospitals=hospitals, casualties=casualties)
 new_simulation.run_simulation()

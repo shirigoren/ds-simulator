@@ -14,7 +14,7 @@ class Tasks(enum.Enum):  # let crate an enum of abilities
 class MedicalUnit(object):
     """ An Abstract class that represents a Medical Unit """
 
-    def __init__(self, medical_unit_id, location_lat, location_long, speed, creation_time):
+    def __init__(self, medical_unit_id, location_lat, location_long, speed, creation_time, type):
 
         # ##------------------------Parameters for creation of a  medical unit -------------------------##
 
@@ -22,6 +22,7 @@ class MedicalUnit(object):
         self.current_location = PointLocation(lat=location_lat, long=location_long)
         self.speed = speed
         self.creation_time = creation_time
+        self.type = type
         self.base_location = self.current_location
         self.passenger_capacity = 3
         self.skills = {}
@@ -50,10 +51,10 @@ class MedicalUnit(object):
         print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to disaster site " + str(disaster_site.ds_id))
 
     ### shiri 4.9.2023:
-    def finished_at_ds_driving_to_hospital(self,hospital,time_now):
+    def finished_at_ds_driving_to_hospital(self,hospital_id,time_now):
         self.current_location = None
         self.status = Status.ON_THE_WAY_TO_HOSPITAL
-        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " on the way to hospital " + str(hospital.hospital_id))
+        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " on the way to hospital number" + str(hospital_id))
 
     # def finished_at_ds_driving_to_another_ds(self,new_disaster_site,time_now):
     #     self.current_location = None
@@ -72,7 +73,7 @@ class MedicalUnit(object):
         print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + "arrived to dispatch")
 
     def arrived_to_hospital(self,hospital, time_now):
-        self.current_location = hospital.location_point
+        self.current_location = hospital.coordinate
         self.status = Status.AT_HOSPITAL
         print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to hospital " + str(hospital.hospital_id))
 

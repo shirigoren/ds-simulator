@@ -1,4 +1,4 @@
-class Allocation():
+class Allocation_ds():
 
     def __init__(self, medical_unit_id, disaster_site_id, working_start_time, working_end_time):
         self.medical_unit_id = medical_unit_id

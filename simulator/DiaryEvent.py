@@ -62,10 +62,9 @@ class FinishWorkDisasterSite(DiaryEvent):  # type 3
 
 class ArrivalToHospital(DiaryEvent):  # type 5
 
-    def __init__(self, time_now, medical_unit, hospital, casualties):
+    def __init__(self, time_now, medical_unit, hospital):
         self.medical_unit = medical_unit
         self.hospital = hospital
-        self.casualties = casualties
         DiaryEvent.__init__(self, time_now=time_now, event_type=DiaryEventType.ARRIVAL_TO_HOSPITAL)
 
 
