@@ -13,7 +13,7 @@ class PointLocation(object):
         return False
 
     def __str__(self):
-        return f"-- Point Location is -- \n   Latitude:{self.lat} \n   Longitude:{self.long} \n"
+        return f"({self.lat}, {self.long})"
 
 
 # # TESTS

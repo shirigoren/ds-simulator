@@ -48,13 +48,12 @@ class MedicalUnit(object):
     def arrived_to_disaster_site(self, disaster_site, time_now):
         self.current_location = disaster_site.coordinate
         self.status = Status.WORKING_ON_SITE
-        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to disaster site " + str(disaster_site.ds_id))
+        #print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to disaster site " + str(disaster_site.ds_id))
 
-    ### shiri 4.9.2023:
-    def finished_at_ds_driving_to_hospital(self,hospital_id,time_now):
+    def finished_at_ds_driving_to_hospital(self):
         self.current_location = None
         self.status = Status.ON_THE_WAY_TO_HOSPITAL
-        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " on the way to hospital number" + str(hospital_id))
+        #print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " on the way to hospital number" + str(hospital_id))
 
     # def finished_at_ds_driving_to_another_ds(self,new_disaster_site,time_now):
     #     self.current_location = None
@@ -70,17 +69,17 @@ class MedicalUnit(object):
         self.current_location = (0,0)
         #todo: What is the location of the dispatch? can it be (0,0)?
         self.status = Status.AT_DISPATCH
-        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + "arrived to dispatch")
+        #print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + "arrived to dispatch")
 
     def arrived_to_hospital(self,hospital, time_now):
         self.current_location = hospital.coordinate
         self.status = Status.AT_HOSPITAL
-        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to hospital " + str(hospital.hospital_id))
+        #print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " arrived to hospital " + str(hospital.hospital_id))
 
     def finished_at_hospital(self,hospital,time_now):
         self.current_location = None
         self.status = Status.RETURN_TO_DISPATCH #todo 6.9.23 - is that OK?
-        print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " finished at hospital " + str(hospital.hospital_id))
+        #print(f"{time_now} : medical unit: " + str(self.medical_unit_id) + " finished at hospital " + str(hospital.hospital_id))
 
 
     # ##------------------------------Methods for schedule sorting ---------------------------------##
@@ -111,7 +110,7 @@ class MedicalUnit(object):
     def travel_time(self, current_location, future_destination):
         distance = self.haversine(lon1=current_location.long, lat1=current_location.lat, lon2=future_destination.long,
                                   lat2=future_destination.lat)
-        return distance / self.speed
+        return (distance / self.speed)*60
 
     def haversine(self, lon1, lat1, lon2, lat2):
         """

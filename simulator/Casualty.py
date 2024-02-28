@@ -3,6 +3,8 @@ from random import seed
 from enum import Enum
 from simulator.CasualtyData import *
 
+seed(1)
+
 """Developed by Shiri_G - 20102022"""
 
 
@@ -27,7 +29,7 @@ class Casualty(object):
         self.__current_RPM = self.__initial_RPM
         self.__survival_prob = round(CasualtyData().survival_table.get(self.__initial_RPM),2)
         self.__care_time = CasualtyData().care_time_table.get(self.__initial_RPM)
-        self.__first_triage = self.set_first_triage()
+        self.first_triage = self.set_first_triage()
         self.__current_triage = self.update_current_triage()
 
         # ----States Variables---- #

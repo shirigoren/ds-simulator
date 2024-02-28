@@ -31,9 +31,9 @@ class DisasterSite:
 
     def medical_unit_arrived(self, medical_unit, time_now):
         self.units_on_site.add(medical_unit)
-        if self.print_debug:
-            print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
-                  f" medical team {medical_unit.id} was arrived.")
+        # if self.print_debug:
+        #     print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
+        #           f" medical team {medical_unit.id} was arrived.")
 
     def attach_casualty_to_medical_unit(self, casualtyInTreatment, medical_unit):
         medical_unit.attach_casualty(casualtyInTreatment)
@@ -45,8 +45,8 @@ class DisasterSite:
 
     def medical_unit_left(self, medical_unit, time_now):
         self.units_on_site.remove(medical_unit)
-        if self.print_debug:
-            print(f"{time_now}: Disaster site {self.ds_id} - medical team {medical_unit.id} left.")
+        # if self.print_debug:
+        #     print(f"{time_now}: Disaster site {self.ds_id} - medical team {medical_unit.id} left.")
 
     # ---------------------------------------------Getters-------------------------------------------------#
 

@@ -19,7 +19,7 @@ class DisasterSite:
     def create_casualties(self, number_of_casualties):
         for i in range(1, number_of_casualties+1):
             new_casualty = Casualty(self.ds_id,i)
-            self.casualties.add(new_casualty)
+            self.casualties.append(new_casualty)
             if self.print_debug:
                 print(f"Casualty {i} was added to disaster site {self.ds_id}.")
 
@@ -27,16 +27,15 @@ class DisasterSite:
 
     def medical_unit_arrived(self, medical_unit, time_now):
         self.units_on_site.append(medical_unit)
-        if self.print_debug:
-            print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
-                  f" medical team {medical_unit.medical_unit_id} has arrived.")
+        # if self.print_debug:
+        #     print(f"\n{time_now}: Disaster site {self.ds_id} in geographic coordinate: {self.coordinate}"
+        #         f" medical team {medical_unit.medical_unit_id} has arrived.")
 
-    #shiri 29.8
     def medical_unit_finished(self, medical_unit, time_now):
         self.units_on_site.remove(medical_unit)
-        if self.print_debug:
-            print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
-                  f" medical team {medical_unit.medical_unit_id} finished work.")
+        # if self.print_debug:
+        #     print(f"{time_now}: Disaster site {self.ds_id} in geographic coordinate {self.coordinate} -"
+        #           f" medical team {medical_unit.medical_unit_id} finished work.")
 
     def add_casualty(self, casualty):
         self.casualties.append(casualty)
